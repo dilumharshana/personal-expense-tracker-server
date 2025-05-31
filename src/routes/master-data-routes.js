@@ -7,24 +7,24 @@ const router = express.Router();
  * @route   GET /api/masterdata
  * @desc    Get all master data items
  */
-router.get("/", MasterDataController.getAll);
+router.get("/", MasterDataController.getAllMasterData);
 
 /**
  * @route   POST /api/masterdata
  * @desc    Create a new master data item
  */
-router.post("/", MasterDataController.create);
+router.post("/", MasterDataController.createMasterData);
 
 /**
  * @route   PUT /api/masterdata/:id
  * @desc    Update a master data item
  */
-router.put("/:id", MasterDataController.update);
+router.put("/:id", MasterDataController.updateMasterData);
 
 /**
  * @route   DELETE /api/masterdata/:id
  * @desc    Delete a master data item
  */
-router.delete("/:id", MasterDataController.delete);
+router.delete("/:id", MasterDataController.deleteMasterData);
 
 export default router;

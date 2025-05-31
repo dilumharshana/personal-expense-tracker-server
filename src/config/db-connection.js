@@ -27,7 +27,7 @@ class Database {
       });
 
       await this.client.connect();
-      this.db = this.client.db(dbName).command({ ping: 1 });
+      this.db = this.client.db(dbName);
 
       console.log("Connected to MongoDB");
       return this.db;

@@ -7,7 +7,8 @@ import { getAmountByPercentage } from "../utils/helpers.js";
  */
 class Expense {
   static get collection() {
-    return database.getDb().collection("expenses");
+    const clusterName = process.env.EXPENSE_DATA_CLUSTER;
+    return database.getDb().collection(clusterName);
   }
 
   /**

@@ -1,5 +1,4 @@
 import ExpenseService from "../services/expense-service.js";
-import { validateRecordId } from "../utils/validators.js";
 
 /**
  * Expense Controller - Handles expense operations
@@ -45,15 +44,11 @@ class ExpenseController {
     try {
       const { id } = req.params;
 
-      const { error, value } = validateRecordId(id);
-      if (error) {
+      if (!id) {
         return res.status(400).json({ error: error.message });
       }
 
-      const updatedExpense = await ExpenseService.updateExpense(
-        value,
-        req.body
-      );
+      const updatedExpense = await ExpenseService.updateExpense(id, req.body);
       res.status(200).json(updatedExpense);
     } catch (error) {
       next(error);
@@ -70,8 +65,7 @@ class ExpenseController {
     try {
       const { id } = req.params;
 
-      const { error, value } = validateRecordId(id);
-      if (error) {
+      if (!id) {
         return res.status(400).json({ error: error.message });
       }
 

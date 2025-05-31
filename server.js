@@ -26,7 +26,7 @@ app.use("/api", apiRoutes);
 // Start server
 app.listen(PORT, async () => {
   await database.connect();
-  console.log(`🚀 Server running on port ${PORT}`);
+  console.log(`🚀 Server running on port : http://localhost:${PORT}/`);
 });
 
 export default app;

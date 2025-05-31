@@ -55,24 +55,3 @@ export const validateExpenseInput = (expenseData) => {
     value: validatedData
   };
 };
-
-/**
- * Validates expense ID
- * @param {any} id - Expense ID to validate
- * @returns {Object} - Validation result with error or validated value
- */
-export const validateRecordId = (id) => {
-  const parsedId = parseInt(id, 10);
-
-  if (isNaN(parsedId) || parsedId <= 0) {
-    return {
-      error: new Error("Invalid expense ID"),
-      value: null
-    };
-  }
-
-  return {
-    error: null,
-    value: parsedId
-  };
-};

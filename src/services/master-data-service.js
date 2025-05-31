@@ -37,13 +37,13 @@ class MasterDataService {
    * @throws {Error} - If validation fails
    */
   static async createMasterData(data) {
-    if (data?.title) {
-      const validationError = new Error(error.message);
+    if (!data?.title) {
+      const validationError = new Error("Title is required");
       validationError.statusCode = 400;
       throw validationError;
     }
 
-    return await MasterData.create(value);
+    return await MasterData.create(data?.title);
   }
 
   /**
@@ -54,8 +54,6 @@ class MasterDataService {
    * @throws {Error} - If item not found
    */
   static async updateMasterData(id, data) {
-    await this.getById(id);
-
     return await MasterData.update(id, data);
   }
 
@@ -66,8 +64,6 @@ class MasterDataService {
    * @throws {Error} - If item not found
    */
   static async deleteMasterData(id) {
-    await this.getById(id);
-
     return await MasterData.delete(id);
   }
 }
