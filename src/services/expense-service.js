@@ -63,6 +63,15 @@ class ExpenseService {
   }
 
   /**
+   *check if monthly max expense limit has exceed
+   * @returns {boolean} - true if monthly total expenses has exceeded the max expense amount or then false
+   * @throws {Error} - If expense not found or validation fails
+   */
+  static async checkMaxAmountExceeded() {
+    return await Expense.maxAmountExceeded();
+  }
+
+  /**
    * Delete an expense
    * @param {string} id - Expense ID
    * @returns {Promise<boolean>} - Whether deletion was successful

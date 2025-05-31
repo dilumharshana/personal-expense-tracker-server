@@ -1,5 +1,6 @@
 import database from "../config/db-connection.js";
 import { ObjectId } from "mongodb";
+import { getAmountByPercentage } from "../utils/helpers.js";
 
 /**
  * Expense model - Handles database operations for expenses
@@ -47,6 +48,7 @@ class Expense {
   static async create(expenseData) {
     try {
       const { type, description, amount, date } = expenseData;
+
       const newExpense = {
         description,
         amount: parseFloat(amount),
@@ -162,6 +164,23 @@ class Expense {
       return result.length > 0 ? result[0].total : 0;
     } catch (error) {
       throw new Error(`Error calculating monthly total: ${error.message}`);
+    }
+  }
+
+  /**
+   * Check if monthly total amount has exceeded the max expense amount
+   * @returns {boolean} - true if monthly total expenses has exceeded the max expense amount or then false
+   */
+  static async maxAmountExceeded() {
+    try {
+      const monthlyTotal = getMonthlyTotal();
+      const maxExpenseAmount = getAmountByPercentage(10000, 90);
+
+      return monthlyTotal > maxExpenseAmount ? true : false;
+    } catch (error) {
+      throw new Error(
+        `Error finding max expenses has exceeded: ${error.message}`
+      );
     }
   }
 }
