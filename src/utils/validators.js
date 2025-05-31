@@ -3,6 +3,7 @@
  * @param {Object} expenseData - expense data to validate
  * @returns {Object} - Validation result with error or validated value
  */
+
 export const validateExpenseInput = (expenseData) => {
   const errors = [];
   const validatedData = {};
@@ -60,7 +61,7 @@ export const validateExpenseInput = (expenseData) => {
  * @param {any} id - Expense ID to validate
  * @returns {Object} - Validation result with error or validated value
  */
-export const validateExpenseId = (id) => {
+export const validateRecordId = (id) => {
   const parsedId = parseInt(id, 10);
 
   if (isNaN(parsedId) || parsedId <= 0) {
