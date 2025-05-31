@@ -1,4 +1,4 @@
-import MasterDataService from "../services/masterDataService.js";
+import MasterDataService from "../services/master-data-service.js";
 import { validateRecordId } from "../utils/validators.js";
 
 /**

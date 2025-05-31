@@ -1,5 +1,4 @@
-import MasterData from "../models/masterData.js";
-import { validateMasterDataInput } from "../utils/validators.js";
+import MasterData from "../models/master-data.js";
 
 /**
  * Master Data Service - Business logic for master data operations
@@ -38,9 +37,7 @@ class MasterDataService {
    * @throws {Error} - If validation fails
    */
   static async createMasterData(data) {
-    const { error, value } = validateMasterDataInput(data);
-
-    if (error) {
+    if (data?.title) {
       const validationError = new Error(error.message);
       validationError.statusCode = 400;
       throw validationError;
