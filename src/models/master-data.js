@@ -5,17 +5,12 @@ import { ObjectId } from "mongodb";
  * MasterData model - Handles database operations for master data
  */
 class MasterData {
-  static collection = null;
-
-  static async getCollection() {
-    // return collection if exist
-    if (this.collection) return this.collection;
-
-    // create and return master data collection
-    const clusterName = process.env.MASTER_DATA_CLUSTER;
-    const db = await database.getDb();
-    this.collection = await db.collection(clusterName);
-    return this.collection;
+  static get collection() {
+    if (!this._collection) {
+      const clusterName = process.env.EXPENSE_DATA_CLUSTER;
+      this._collection = database.getDb().collection(clusterName);
+    }
+    return this._collection;
   }
 
   /**
@@ -24,9 +19,7 @@ class MasterData {
    */
   static async findAll() {
     try {
-      const collection = await this.getCollection();
-
-      return await collection.find({}).sort({ createdAt: -1 }).toArray();
+      return await this.collection.find({}).sort({ createdAt: -1 }).toArray();
     } catch (error) {
       throw new Error(`Error finding master data: ${error.message}`);
     }
@@ -39,8 +32,7 @@ class MasterData {
    */
   static async findById(id) {
     try {
-      const collection = await this.getCollection();
-      return await collection.findOne({ _id: new ObjectId(id) });
+      return await this.collection.findOne({ _id: new ObjectId(id) });
     } catch (error) {
       throw new Error(`Error finding master data by ID: ${error.message}`);
     }
@@ -59,8 +51,7 @@ class MasterData {
         updatedAt: new Date()
       };
 
-      const collection = await this.getCollection();
-      const result = await collection.insertOne(newItem);
+      const result = await this.collection.insertOne(newItem);
       return await this.findById(result.insertedId);
     } catch (error) {
       throw new Error(`Error creating master data: ${error.message}`);
@@ -80,9 +71,7 @@ class MasterData {
         updatedAt: new Date()
       };
 
-      const collection = await this.getCollection();
-
-      const result = await collection.updateOne(
+      const result = await this.collection.updateOne(
         { _id: new ObjectId(id) },
         { $set: updateData }
       );
@@ -102,10 +91,7 @@ class MasterData {
    */
   static async delete(id) {
     try {
-      const collection = await this.getCollection();
-      const result = await collection.deleteOne({ _id: new ObjectId(id) });
-      console.log(result);
-
+      const result = await this.collection.deleteOne({ _id: new ObjectId(id) });
       return result.deletedCount > 0;
     } catch (error) {
       throw new Error(`Error deleting master data: ${error.message}`);

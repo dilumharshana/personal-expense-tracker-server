@@ -7,15 +7,18 @@ import { getAmountByPercentage } from "../utils/helpers.js";
  */
 class Expense {
   static get collection() {
-    const clusterName = process.env.EXPENSE_DATA_CLUSTER;
-    return database.getDb().collection(clusterName);
+    if (!this._collection) {
+      const clusterName = process.env.EXPENSE_DATA_CLUSTER;
+      this._collection = database.getDb().collection(clusterName);
+    }
+    return this._collection;
   }
 
   /**
    * Find recent expenses
    * @returns {Promise<Array>} - Array of expenses
    */
-  static async findRecent() {
+  static async getAllExpenses() {
     try {
       const expenses = await this.collection
         .find({})
@@ -48,12 +51,12 @@ class Expense {
    */
   static async create(expenseData) {
     try {
-      const { type, description, amount, date } = expenseData;
+      const { expenseType, description, amount, date } = expenseData;
 
       const newExpense = {
         description,
         amount: parseFloat(amount),
-        type,
+        type: expenseType,
         date: new Date(date),
         createdAt: new Date(),
         updatedAt: new Date()
@@ -74,12 +77,12 @@ class Expense {
    */
   static async update(id, expenseData) {
     try {
-      const { description, amount, type, date } = expenseData;
+      const { description, amount, expenseType, date } = expenseData;
 
       const updateData = { updatedAt: new Date() };
       if (description !== undefined) updateData.description = description;
       if (amount !== undefined) updateData.amount = parseFloat(amount);
-      if (type !== undefined) updateData.type = type;
+      if (expenseType !== undefined) updateData.type = type;
       if (date !== undefined) updateData.date = new Date(date);
 
       const result = await this.collection.updateOne(

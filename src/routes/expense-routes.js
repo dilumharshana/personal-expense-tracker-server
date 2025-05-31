@@ -8,7 +8,7 @@ const router = express.Router();
  * @route   GET /api/expenses
  * @desc    Get expenses
  */
-router.get("/", ExpenseController.getRecentExpenses);
+router.get("/", ExpenseController.getExpenses);
 
 /**
  * @route   POST /api/expenses
@@ -20,7 +20,7 @@ router.post("/", ExpenseController.createExpense);
  * @route   PUT /api/expenses/:id
  * @desc    Update an expense
  */
-router.put("/:id", ExpenseController.updateExpense);
+router.patch("/:id", ExpenseController.updateExpense);
 
 /**
  * @route   DELETE /api/expenses/:id

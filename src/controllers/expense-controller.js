@@ -10,9 +10,9 @@ class ExpenseController {
    * @param {Object} res
    * @param {Function} next
    */
-  static async getRecentExpenses(req, res, next) {
+  static async getExpenses(req, res, next) {
     try {
-      const expenses = await ExpenseService.getRecentExpenses();
+      const expenses = await ExpenseService.getExpenses();
       res.status(200).json(expenses);
     } catch (error) {
       next(error);
@@ -69,7 +69,7 @@ class ExpenseController {
         return res.status(400).json({ error: error.message });
       }
 
-      await ExpenseService.deleteExpense(value);
+      await ExpenseService.deleteExpense(id);
       res.status(204).end();
     } catch (error) {
       next(error);

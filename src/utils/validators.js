@@ -11,8 +11,6 @@ export const validateExpenseInput = (expenseData) => {
   // Validate expense type
   if (!expenseData?.type) {
     errors.push("Expense type is required");
-  } else if (typeof title !== "number") {
-    errors.push("Expense type must be a number");
   } else {
     validatedData.expenseType = expenseData?.type;
   }
@@ -27,8 +25,8 @@ export const validateExpenseInput = (expenseData) => {
   // Validate expense amount
   if (!expenseData?.amount) {
     errors.push("Expense amount is required");
-  } else if (typeof title !== "number") {
-    errors.push("Expense type must be a number");
+  } else if (isNaN(expenseData?.amount)) {
+    errors.push("Expense amount must be a number");
   } else {
     validatedData.amount = expenseData?.amount;
   }
@@ -36,8 +34,6 @@ export const validateExpenseInput = (expenseData) => {
   // Validate expense date
   if (!expenseData?.date) {
     errors.push("Expense date is required");
-  } else if (typeof title !== "number") {
-    errors.push("Expense type must be a number");
   } else {
     validatedData.date = expenseData?.date;
   }

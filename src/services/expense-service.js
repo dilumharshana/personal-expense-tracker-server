@@ -6,11 +6,11 @@ import { validateExpenseInput } from "../utils/validators.js";
  */
 class ExpenseService {
   /**
-   * Get recent expenses
+   * Get expenses
    * @returns {Promise<Array>} - Array of expenses
    */
-  static async getRecentExpenses() {
-    return await Expense.findRecent();
+  static async getExpenses() {
+    return await Expense.getAllExpenses();
   }
 
   /**
@@ -39,11 +39,12 @@ class ExpenseService {
    */
   static async createExpense(expenseData) {
     const { error, value } = validateExpenseInput(expenseData);
+    console.log(error);
 
     if (error) {
       const validationError = new Error(error.message);
       validationError.statusCode = 400;
-      throw validationError;
+      return validationError;
     }
 
     return await Expense.create(value);
@@ -57,8 +58,6 @@ class ExpenseService {
    * @throws {Error} - If expense not found or validation fails
    */
   static async updateExpense(id, expenseData) {
-    await this.getExpenseById(id);
-
     return await Expense.update(id, expenseData);
   }
 
@@ -78,8 +77,6 @@ class ExpenseService {
    * @throws {Error} - If expense not found
    */
   static async deleteExpense(id) {
-    await this.getExpenseById(id);
-
     return await Expense.delete(id);
   }
 }
