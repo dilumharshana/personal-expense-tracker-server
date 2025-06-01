@@ -35,3 +35,11 @@ export interface ApiResponse<T> {
   data: T;
   message?: string;
 }
+
+// interface for filtering expense data
+export interface ExpenseFilters {
+  type?: string;
+  description?: string;
+  dateFrom?: string;
+  dateTo?: string;
+}
