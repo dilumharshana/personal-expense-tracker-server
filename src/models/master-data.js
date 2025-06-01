@@ -70,7 +70,7 @@ class MasterData {
   static async update(id, data) {
     try {
       const updateData = {
-        title: data,
+        title: data?.title,
         updatedAt: new Date()
       };
 

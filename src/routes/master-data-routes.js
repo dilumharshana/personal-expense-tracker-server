@@ -19,7 +19,7 @@ router.post("/", MasterDataController.createMasterData);
  * @route   PUT /api/masterdata/:id
  * @desc    Update a master data item
  */
-router.put("/:id", MasterDataController.updateMasterData);
+router.patch("/:id", MasterDataController.updateMasterData);
 
 /**
  * @route   DELETE /api/masterdata/:id

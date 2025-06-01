@@ -39,6 +39,10 @@ class MasterDataController {
         return res.status(400).json({ error: error.message });
       }
 
+      if (!req.body?.title) {
+        return res.status(400).json({ error: "Title is required" });
+      }
+
       const updatedItem = await MasterDataService.updateMasterData(
         id,
         req.body

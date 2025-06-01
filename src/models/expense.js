@@ -81,12 +81,12 @@ class Expense {
    */
   static async update(id, expenseData) {
     try {
-      const { description, amount, expenseType, date } = expenseData;
+      const { description, amount, type, date } = expenseData;
 
       const updateData = { updatedAt: new Date() };
       if (description !== undefined) updateData.description = description;
       if (amount !== undefined) updateData.amount = parseFloat(amount);
-      if (expenseType !== undefined) updateData.type = type;
+      if (type !== undefined) updateData.type = type;
       if (date !== undefined) updateData.date = new Date(date);
 
       const result = await this.collection.updateOne(
@@ -213,7 +213,7 @@ class Expense {
         maxExpensePercentage
       );
 
-      return monthlyTotal > maxExpenseAmount ? true : false;
+      return monthlyTotal >= maxExpenseAmount ? true : false;
     } catch (error) {
       throw new Error(
         `Error finding max expenses has exceeded: ${error.message}`
