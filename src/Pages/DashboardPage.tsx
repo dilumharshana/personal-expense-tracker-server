@@ -9,14 +9,16 @@ import {
     Typography,
 } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
-import { ArcElement, BarElement, CategoryScale, Chart as ChartJS, Legend, LinearScale, Tooltip, } from 'chart.js';
+
+
 import React from 'react';
-import { Bar, Pie } from 'react-chartjs-2';
+import BarChartComponent from '../Components/Common/BarChartComponent';
+import PieChartComponent from '../Components/Common/PieChartComponent';
 import { expenseService } from '../Services/ExpenseService';
 import { masterDataService } from '../Services/MasterDataService';
-import * as d3 from 'd3-scale-chromatic';
+import { generateColorScale } from '../Utilis/Helpers';
 
-ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement);
+
 
 const date = new Date();
 const month = date.getMonth()
@@ -50,7 +52,7 @@ const Dashboard: React.FC = () => {
         if (!dashboardData?.dashBoardData) return null;
 
         const typeAmounts = dashboardData?.dashBoardData?.reduce((acc, expense) => {
-            const typeTitle = expense.type ? getMasterDataTitle(expense.type) : 'Uncategorized';
+            const typeTitle = expense?.type ? getMasterDataTitle(expense?.type) : 'Uncategorized';
             acc[typeTitle] = (acc[typeTitle] || 0) + expense.amount;
             return acc;
         }, {} as Record<string, number>);
@@ -66,19 +68,11 @@ const Dashboard: React.FC = () => {
                     label: 'Expenses by Type',
                     data,
                     backgroundColor: colors.slice(0, labels.length),
-                    borderWidth: 1,
+                    borderWidth: 2,
                 },
             ],
         };
     }, [dashboardData, masterData]);
-
-    function generateColorScale(count: number) {
-        const colors = [];
-        for (let i = 0; i < count; i++) {
-            colors.push(d3.interpolateRainbow(i / count));
-        }
-        return colors;
-    }
 
     // Prepare daily expenses data for bar chart
     const dailyExpenses = React.useMemo(() => {
@@ -126,7 +120,7 @@ const Dashboard: React.FC = () => {
             </Typography>
 
             {dashboardData?.hasExceedExpenseLimit && (
-                <Alert severity="warning" sx={{ mb: 3 }}>
+                <Alert severity="error" sx={{ mb: 3 }}>
                     Warning: You have exceeded or are close to your monthly expense limit!
                 </Alert>
             )}
@@ -166,18 +160,8 @@ const Dashboard: React.FC = () => {
                         </Typography>
                         {expensePatterns && expensePatterns.labels.length > 0 ? (
                             <Box sx={{ height: 400, display: 'flex', justifyContent: 'center' }}>
-                                <Pie
-                                    data={expensePatterns}
-                                    options={{
-                                        responsive: true,
-                                        maintainAspectRatio: false,
-                                        plugins: {
-                                            legend: {
-                                                position: 'bottom',
-                                            },
-                                        },
-                                    }}
-                                />
+                                {/* pie chart for Expense Patterns by Type */}
+                                <PieChartComponent expensePatterns={expensePatterns} />
                             </Box>
                         ) : (
                             <Typography color="text.secondary">
@@ -194,26 +178,9 @@ const Dashboard: React.FC = () => {
                         </Typography>
                         {dailyExpenses && dailyExpenses.labels.length > 0 ? (
                             <Box sx={{ height: 400 }}>
-                                <Bar
-                                    data={dailyExpenses}
-                                    options={{
-                                        responsive: true,
-                                        maintainAspectRatio: false,
-                                        plugins: {
-                                            legend: {
-                                                display: false,
-                                            },
-                                        },
-                                        scales: {
-                                            y: {
-                                                beginAtZero: true,
-                                                ticks: {
-                                                    callback: (value) => `LKR ${value}`,
-                                                },
-                                            },
-                                        },
-                                    }}
-                                />
+                                {/* bar chart for Daily Expenses  */}
+                                <BarChartComponent dailyExpenses={dailyExpenses} />
+
                             </Box>
                         ) : (
                             <Typography color="text.secondary">

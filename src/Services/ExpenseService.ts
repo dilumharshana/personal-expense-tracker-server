@@ -1,5 +1,5 @@
 // src/services/expenseService.ts
-import { apiClient } from "../Utility/ApiClient";
+import { apiClient } from "../Utilis/ApiClient";
 import { API_ENDPOINTS } from "../Configs/Api";
 import type { Expense, ExpenseFormData, DashboardData } from "../Types/Index";
 

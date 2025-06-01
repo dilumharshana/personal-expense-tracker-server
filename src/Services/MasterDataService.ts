@@ -1,5 +1,5 @@
 // src/services/masterDataService.ts
-import { apiClient } from "../Utility/ApiClient";
+import { apiClient } from "../Utilis/ApiClient";
 import { API_ENDPOINTS } from "../Configs/Api";
 import type { MasterData } from "../Types/Index";
 

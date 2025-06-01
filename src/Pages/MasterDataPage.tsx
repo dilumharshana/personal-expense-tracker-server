@@ -23,7 +23,7 @@ import { useFormik } from 'formik';
 import React, { useState } from 'react';
 import * as Yup from 'yup';
 import { ExpenseTypesTableColumns } from '../Constants/Index';
-import TableComponent from '../Components/TableComponent';
+import TableComponent from '../Components/Common/TableComponent';
 import { masterDataService } from '../Services/MasterDataService';
 import type { MasterData } from '../Types/Index';
 

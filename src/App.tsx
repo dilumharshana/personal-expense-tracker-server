@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { CssBaseline, CircularProgress, Box } from '@mui/material';
-import ProtectedRoute from './Components/ProtectedRoute';
+import ProtectedRoute from './Components/Routes/ProtectedRoute';
 import MainLayout from './Layouts/MainLayout';
 import Dashboard from './Pages/DashboardPage';
 import Expenses from './Pages/ExpensePage';

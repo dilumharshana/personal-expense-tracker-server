@@ -1,37 +1,33 @@
 // src/pages/Expenses.tsx
-import React, { useState, useMemo, useEffect } from 'react';
 import {
-    Box,
-    Typography,
-    Button,
-    TextField,
-    MenuItem,
-    Paper,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    IconButton,
+    Add as AddIcon,
+    Delete as DeleteIcon,
+    Edit as EditIcon,
+    Search as SearchIcon,
+} from '@mui/icons-material';
+import {
     Alert,
-    Grid,
+    Box,
+    Button,
     Card,
     CardContent,
     Chip,
+    Grid,
+    IconButton,
+    MenuItem,
+    Paper,
+    TableCell,
+    TableRow,
+    TextField,
+    Typography
 } from '@mui/material';
-import {
-    Add as AddIcon,
-    Edit as EditIcon,
-    Delete as DeleteIcon,
-    Search as SearchIcon,
-} from '@mui/icons-material';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import React, { useEffect, useMemo, useState } from 'react';
+import TableComponent, { type Column } from '../Components/Common/TableComponent';
+import ExpenseForm from '../Components/Expenses/ExpenseForm';
 import { expenseService } from '../Services/ExpenseService';
 import { masterDataService } from '../Services/MasterDataService';
-import ExpenseForm from '../Components/ExpenseForm';
 import type { Expense, ExpenseFilters, MasterData } from '../Types/Index';
-import TableComponent, { type Column, type MasterDataItem } from '../Components/TableComponent';
 
 const Expenses: React.FC = () => {
     const [formOpen, setFormOpen] = useState(false);
