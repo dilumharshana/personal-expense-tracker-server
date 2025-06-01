@@ -22,7 +22,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useFormik } from 'formik';
 import React, { useState } from 'react';
 import * as Yup from 'yup';
-import { ExpenseTypesTableColumns } from '../Components/Constants/Index';
+import { ExpenseTypesTableColumns } from '../Constants/Index';
 import TableComponent from '../Components/TableComponent';
 import { masterDataService } from '../Services/MasterDataService';
 import type { MasterData } from '../Types/Index';
@@ -130,7 +130,7 @@ const MasterData: React.FC = () => {
             )}
 
             {/* expense table component  */}
-            <TableComponent masterData={masterData} isLoading={isLoading} onEdit={handleEdit} onDelete={handleDelete} isDeletePending={deleteMutation.isPending} columns={ExpenseTypesTableColumns} rows={<>
+            <TableComponent masterData={masterData} isLoading={isLoading} onEdit={handleEdit} onDelete={handleDelete} isDeletePending={deleteMutation.isPending} columns={ExpenseTypesTableColumns} tableRows={<>
                 {isLoading ? (
                     <TableRow>
                         <TableCell colSpan={2} align="center">

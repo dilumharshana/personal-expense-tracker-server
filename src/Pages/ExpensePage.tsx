@@ -1,34 +1,37 @@
 // src/pages/Expenses.tsx
+import React, { useState, useMemo, useEffect } from 'react';
 import {
-    Add as AddIcon,
-    Delete as DeleteIcon,
-    Edit as EditIcon,
-    Search as SearchIcon,
-} from '@mui/icons-material';
-import {
-    Alert,
     Box,
+    Typography,
     Button,
+    TextField,
+    MenuItem,
+    Paper,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    IconButton,
+    Alert,
+    Grid,
     Card,
     CardContent,
     Chip,
-    Grid,
-    IconButton,
-    MenuItem,
-    Paper,
-    TableCell,
-    TableRow,
-    TextField,
-    Typography
 } from '@mui/material';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import React, { useEffect, useMemo, useState } from 'react';
-import { expenseTableColumns } from '../Components/Constants/Index';
-import ExpenseForm from '../Components/ExpenseForm';
-import TableComponent, { type Column } from '../Components/TableComponent';
+import {
+    Add as AddIcon,
+    Edit as EditIcon,
+    Delete as DeleteIcon,
+    Search as SearchIcon,
+} from '@mui/icons-material';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { expenseService } from '../Services/ExpenseService';
 import { masterDataService } from '../Services/MasterDataService';
+import ExpenseForm from '../Components/ExpenseForm';
 import type { Expense, ExpenseFilters, MasterData } from '../Types/Index';
+import TableComponent, { type Column, type MasterDataItem } from '../Components/TableComponent';
 
 const Expenses: React.FC = () => {
     const [formOpen, setFormOpen] = useState(false);
@@ -238,12 +241,7 @@ const Expenses: React.FC = () => {
             )}
 
             <TableComponent
-                isLoading={expensesLoading}
-                isDeletePending={deleteMutation.isPending}
-                onEdit={(row: Expense) => handleEdit(row)}
-                onDelete={(id) => handleDelete(id)}
-                columns={expenseTableColumns}
-                rows={<>
+                tableRows={<>
                     {(expensesLoading || deleteMutation.isPending) ? (
                         <TableRow>
                             <TableCell colSpan={5} align="center">
@@ -270,10 +268,10 @@ const Expenses: React.FC = () => {
                                     />
                                 </TableCell>
                                 <TableCell>{expense.description}</TableCell>
-                                <TableCell align="right">
+                                <TableCell >
                                     {formatCurrency(expense.amount)}
                                 </TableCell>
-                                <TableCell align="center">
+                                <TableCell >
                                     <IconButton
                                         size="small"
                                         onClick={() => handleEdit(expense)}
@@ -294,6 +292,10 @@ const Expenses: React.FC = () => {
                         ))
                     )}
                 </>}
+                columns={['Date', 'Type', 'Description', 'Amount', 'Actions']}
+                isLoading={expensesLoading || deleteMutation.isPending}
+                onEdit={(row) => handleEdit(row)}
+                onDelete={(id) => handleDelete(id)}
             />
         </Box>
     );

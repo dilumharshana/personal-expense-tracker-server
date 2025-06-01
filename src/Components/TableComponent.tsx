@@ -17,7 +17,7 @@ export interface Column<T> {
 }
 
 interface TableComponentProps<T> {
-    rows: React.ReactNode;
+    tableRows: React.ReactNode;
     columns: string[];
     isLoading: boolean;
     onEdit?: (row: T) => void;
@@ -54,7 +54,7 @@ const MemoizedTableHeader = memo(({
 ));
 
 function TableComponent<T>({
-    rows,
+    tableRows,
     columns,
     isLoading,
     onEdit,
@@ -68,12 +68,12 @@ function TableComponent<T>({
             return <MemoizedEmptyState message="Loading..." />;
         }
 
-        if (!rows) {
+        if (!tableRows) {
             return <MemoizedEmptyState message="No data found" />;
         }
 
-        return rows
-    }, [rows, columns, onEdit, onDelete, isDeletePending, isLoading,]);
+        return tableRows
+    }, [tableRows, columns, onEdit, onDelete, isDeletePending, isLoading,]);
 
     // Memoize table header
     const tableHeader = useMemo(() => (
