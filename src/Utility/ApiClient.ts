@@ -1,5 +1,9 @@
 // src/utils/apiClient.ts
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
+import axios, {
+  type AxiosInstance,
+  type AxiosRequestConfig,
+  type AxiosResponse
+} from "axios";
 import { API_CONFIG } from "../Configs/Api";
 
 class ApiClient {

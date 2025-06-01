@@ -1,7 +1,7 @@
 // src/services/expenseService.ts
 import { apiClient } from "../Utility/ApiClient";
 import { API_ENDPOINTS } from "../Configs/Api";
-import { Expense, ExpenseFormData, DashboardData } from "../Types/Index";
+import type { Expense, ExpenseFormData, DashboardData } from "../Types/Index";
 
 export const expenseService = {
   getExpenses: async (): Promise<Expense[]> => {
@@ -26,7 +26,12 @@ export const expenseService = {
     return await apiClient.delete<void>(`${API_ENDPOINTS.EXPENSES.BASE}/${id}`);
   },
 
-  getDashboardData: async (): Promise<DashboardData> => {
-    return await apiClient.get<DashboardData>(API_ENDPOINTS.EXPENSES.DASHBOARD);
+  getDashboardData: async (
+    month: number,
+    year: number
+  ): Promise<DashboardData> => {
+    return await apiClient.get<DashboardData>(
+      `${API_ENDPOINTS.EXPENSES.DASHBOARD}/?month=${month}&year=${year}`
+    );
   }
 };

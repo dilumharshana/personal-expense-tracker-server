@@ -1,7 +1,7 @@
 // src/services/masterDataService.ts
-import { apiClient } from "../utils/apiClient";
-import { API_ENDPOINTS } from "../config/api";
-import { MasterData } from "../types";
+import { apiClient } from "../Utility/ApiClient";
+import { API_ENDPOINTS } from "../Configs/Api";
+import type { MasterData } from "../Types/Index";
 
 export const masterDataService = {
   getMasterData: async (): Promise<MasterData[]> => {
@@ -16,7 +16,7 @@ export const masterDataService = {
     id: string,
     data: { title: string }
   ): Promise<MasterData> => {
-    return await apiClient.put<MasterData>(
+    return await apiClient.patch<MasterData>(
       `${API_ENDPOINTS.MASTER_DATA}/${id}`,
       data
     );
