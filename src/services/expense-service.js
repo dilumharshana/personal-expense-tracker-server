@@ -79,6 +79,15 @@ class ExpenseService {
   static async deleteExpense(id) {
     return await Expense.delete(id);
   }
+
+  /**
+   * Get dashboard data
+   * @returns {Promise<boolean>} - Whether deletion was successful
+   * @throws {Error} - If dashboard data not found
+   */
+  static async getDashboardData(year, month) {
+    return await Expense.processDashboardData(year, month);
+  }
 }
 
 export default ExpenseService;

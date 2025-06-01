@@ -1,6 +1,10 @@
 import database from "../config/db-connection.js";
 import { ObjectId } from "mongodb";
-import { getAmountByPercentage } from "../utils/helpers.js";
+import {
+  getAmountByPercentage,
+  prepareStartAndEndDate
+} from "../utils/helpers.js";
+import { getAppConfigs } from "../utils/get-app-configs.js";
 
 /**
  * Expense model - Handles database operations for expenses
@@ -120,11 +124,13 @@ class Expense {
    * @param {number} year - Year
    * @returns {Promise<Array>} - Array of expenses for the month
    */
-  static async findByMonth(month, year) {
+  static async processDashboardData(year, month) {
     try {
-      const startDate = new Date(year, month - 1, 1);
-      const endDate = new Date(year, month, 0, 23, 59, 59);
+      const { startDate, endDate } = prepareStartAndEndDate(year, month);
 
+      const dashBoardData = {};
+
+      //get monthly expenses
       const expenses = await this.collection
         .find({
           date: { $gte: startDate, $lte: endDate }
@@ -132,7 +138,21 @@ class Expense {
         .sort({ date: -1 })
         .toArray();
 
-      return expenses;
+      dashBoardData["dashBoardData"] = expenses;
+
+      //get monthly total expense amount
+      const monthlyTotalExpense = await this.getMonthlyTotalExpense(
+        year,
+        month
+      );
+
+      dashBoardData["monthlyTotalExpense"] = monthlyTotalExpense;
+
+      // get if monthly total expense amount has exceed the limit
+      const hasExceedExpenseLimit = await this.isMaxAmountExceeded(year, month);
+      dashBoardData["hasExceedExpenseLimit"] = hasExceedExpenseLimit;
+
+      return dashBoardData;
     } catch (error) {
       throw new Error(`Error finding expenses by month: ${error.message}`);
     }
@@ -144,10 +164,9 @@ class Expense {
    * @param {number} year - Year
    * @returns {Promise<number>} - Total amount for the month
    */
-  static async getMonthlyTotal(month, year) {
+  static async getMonthlyTotalExpense(year, month) {
     try {
-      const startDate = new Date(year, month - 1, 1);
-      const endDate = new Date(year, month, 0, 23, 59, 59);
+      const { startDate, endDate } = prepareStartAndEndDate(year, month);
 
       const result = await this.collection
         .aggregate([
@@ -175,10 +194,26 @@ class Expense {
    * Check if monthly total amount has exceeded the max expense amount
    * @returns {boolean} - true if monthly total expenses has exceeded the max expense amount or then false
    */
-  static async maxAmountExceeded() {
+  static async isMaxAmountExceeded(year, month) {
     try {
-      const monthlyTotal = getMonthlyTotal();
-      const maxExpenseAmount = getAmountByPercentage(10000, 90);
+      const appConfigs = await getAppConfigs();
+
+      const maxExpenseLimit = appConfigs?.maxExpenseLimit;
+      const maxExpensePercentage = appConfigs?.maxExpensePercentage;
+
+      if (!maxExpenseLimit || !maxExpensePercentage)
+        throw new Error(`Error finding app configs`);
+
+      //get monthly total expenses
+      const monthlyTotal = await this.getMonthlyTotalExpense(year, month);
+
+      //get monthly expense
+      const maxExpenseAmount = getAmountByPercentage(
+        maxExpenseLimit,
+        maxExpensePercentage
+      );
+
+      console.log(maxExpenseAmount);
 
       return monthlyTotal > maxExpenseAmount ? true : false;
     } catch (error) {

@@ -28,4 +28,10 @@ router.patch("/:id", ExpenseController.updateExpense);
  */
 router.delete("/:id", ExpenseController.deleteExpense);
 
+/**
+ * @route   GET /api/expenses/dashboard
+ * @desc    Get expenses
+ */
+router.get("/dashboard", ExpenseController.getDashboardData);
+
 export default router;

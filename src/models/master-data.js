@@ -7,7 +7,7 @@ import { ObjectId } from "mongodb";
 class MasterData {
   static get collection() {
     if (!this._collection) {
-      const clusterName = process.env.EXPENSE_DATA_CLUSTER;
+      const clusterName = process.env.MASTER_DATA_CLUSTER;
       this._collection = database.getDb().collection(clusterName);
     }
     return this._collection;
@@ -19,7 +19,10 @@ class MasterData {
    */
   static async findAll() {
     try {
-      return await this.collection.find({}).sort({ createdAt: -1 }).toArray();
+      return await this.collection
+        .find({}, { projection: { _id: 1, title: 1 } })
+        .sort({ title: 1 })
+        .toArray();
     } catch (error) {
       throw new Error(`Error finding master data: ${error.message}`);
     }

@@ -75,6 +75,24 @@ class ExpenseController {
       next(error);
     }
   }
+
+  /**
+   * Get dashboard data for expenses
+   * @param {Object} req
+   * @param {Object} res
+   * @param {Function} next
+   */
+  static async getDashboardData(req, res, next) {
+    try {
+      const year = req.query.year;
+      const month = req.query.month;
+
+      const expenses = await ExpenseService.getDashboardData(year, month);
+      res.status(200).json(expenses);
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 export default ExpenseController;
