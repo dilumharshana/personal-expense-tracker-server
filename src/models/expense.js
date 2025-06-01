@@ -213,8 +213,6 @@ class Expense {
         maxExpensePercentage
       );
 
-      console.log(maxExpenseAmount);
-
       return monthlyTotal > maxExpenseAmount ? true : false;
     } catch (error) {
       throw new Error(

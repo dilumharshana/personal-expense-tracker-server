@@ -39,8 +39,6 @@ class ExpenseService {
    */
   static async createExpense(expenseData) {
     const { error, value } = validateExpenseInput(expenseData);
-    console.log(error);
-
     if (error) {
       const validationError = new Error(error.message);
       validationError.statusCode = 400;
