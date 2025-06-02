@@ -1,5 +1,6 @@
 import database from "../config/db-connection.js";
 import { ObjectId } from "mongodb";
+import Expense from "./expense.js";
 
 /**
  * MasterData model - Handles database operations for master data
@@ -94,6 +95,14 @@ class MasterData {
    */
   static async delete(id) {
     try {
+      const expensesByType = await Expense.findOne("type", id);
+
+      if (expensesByType?._id) {
+        throw new Error(
+          `Failed to delete expense type. This type is associated with some expenses!`
+        );
+      }
+
       const result = await this.collection.deleteOne({ _id: new ObjectId(id) });
       return result.deletedCount > 0;
     } catch (error) {

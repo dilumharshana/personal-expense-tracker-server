@@ -49,6 +49,20 @@ class Expense {
   }
 
   /**
+   * Find an expense by ID
+   * @param {string} id - Expense ID
+   * @returns {Promise<Object|null>} - Expense object or null if not found
+   */
+  static async findOne(filter, value) {
+    try {
+      const expense = await this.collection.findOne({ [filter]: value });
+      return expense;
+    } catch (error) {
+      throw new Error(`Error finding expense by ID: ${error.message}`);
+    }
+  }
+
+  /**
    * Create a new expense
    * @param {Object} expenseData - Expense data (description, amount, type, date)
    * @returns {Promise<Object>} - Created expense object
