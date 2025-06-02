@@ -21,7 +21,7 @@ app.use(helmet());
 app.use(express.json());
 app.use(
   cors({
-    origin: "http://15.206.205.178:8080"
+    origin: "*"
   })
 );
 
