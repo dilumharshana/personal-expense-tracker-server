@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import helmet from "helmet";
 import dotenv from "dotenv";
+
 // Load environment variables
 dotenv.config();
 
@@ -10,6 +11,12 @@ import database from "./src/config/db-connection.js";
 
 // Import api route handler
 import apiRoutes from "./src/routes/index.js";
+
+// app.use(
+//   cors({
+//     origin: "TODO:add front end domain here"
+//   })
+// );
 
 // Initialize express app
 const app = express();
