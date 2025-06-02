@@ -12,12 +12,6 @@ import database from "./src/config/db-connection.js";
 // Import api route handler
 import apiRoutes from "./src/routes/index.js";
 
-app.use(
-  cors({
-    origin: "http://15.206.205.178:8080"
-  })
-);
-
 // Initialize express app
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -25,6 +19,11 @@ const PORT = process.env.PORT || 8080;
 // Middleware
 app.use(helmet());
 app.use(express.json());
+app.use(
+  cors({
+    origin: "http://15.206.205.178:8080"
+  })
+);
 
 //Routes
 app.use("/api", apiRoutes);
