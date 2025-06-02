@@ -29,7 +29,7 @@ app.use(
 app.use("/api", apiRoutes);
 
 // Start server
-app.listen(PORT, async () => {
+app.listen(PORT, "0.0.0.0", async () => {
   await database.connect();
   console.log(`🚀 Server running on port : http://localhost:${PORT}/`);
 });
