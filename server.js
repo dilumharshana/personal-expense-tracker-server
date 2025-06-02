@@ -19,11 +19,7 @@ const PORT = process.env.PORT || 8080;
 // Middleware
 app.use(helmet());
 app.use(express.json());
-app.use(
-  cors({
-    origin: "*"
-  })
-);
+app.use(cors());
 
 //Routes
 app.use("/api", apiRoutes);
