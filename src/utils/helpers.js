@@ -15,6 +15,6 @@ export const prepareStartAndEndDate = (year, month) => {
 
   return {
     startDate,
-    endDate
+    endDate,
   };
 };

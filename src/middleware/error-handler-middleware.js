@@ -14,7 +14,7 @@ const errorHandlerMiddleware = (err, req, res, next) => {
 
   // Send error response
   res.status(statusCode).json({
-    error: err.message || "Internal Server Error"
+    error: err.message || "Internal Server Error",
   });
 };
 

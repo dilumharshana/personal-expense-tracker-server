@@ -52,7 +52,7 @@ class MasterData {
       const newItem = {
         title: data,
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
       };
 
       const result = await this.collection.insertOne(newItem);
@@ -72,12 +72,12 @@ class MasterData {
     try {
       const updateData = {
         title: data?.title,
-        updatedAt: new Date()
+        updatedAt: new Date(),
       };
 
       const result = await this.collection.updateOne(
         { _id: new ObjectId(id) },
-        { $set: updateData }
+        { $set: updateData },
       );
 
       if (result?.matchedCount === 0) return null;
@@ -99,7 +99,7 @@ class MasterData {
 
       if (expensesByType?._id) {
         throw new Error(
-          `Failed to delete expense type. This type is associated with some expenses!`
+          `Failed to delete expense type. This type is associated with some expenses!`,
         );
       }
 

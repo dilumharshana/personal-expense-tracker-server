@@ -42,12 +42,12 @@ export const validateExpenseInput = (expenseData) => {
   if (errors.length > 0) {
     return {
       error: new Error(errors.join(". ")),
-      value: null
+      value: null,
     };
   }
 
   return {
     error: null,
-    value: validatedData
+    value: validatedData,
   };
 };

@@ -2,7 +2,7 @@ import database from "../config/db-connection.js";
 import { ObjectId } from "mongodb";
 import {
   getAmountByPercentage,
-  prepareStartAndEndDate
+  prepareStartAndEndDate,
 } from "../utils/helpers.js";
 import { getAppConfigs } from "../utils/get-app-configs.js";
 
@@ -77,7 +77,7 @@ class Expense {
         type: expenseType,
         date: new Date(date),
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
       };
 
       const result = await this.collection.insertOne(newExpense);
@@ -105,7 +105,7 @@ class Expense {
 
       const result = await this.collection.updateOne(
         { _id: new ObjectId(id) },
-        { $set: updateData }
+        { $set: updateData },
       );
 
       if (result.matchedCount === 0) {
@@ -147,7 +147,7 @@ class Expense {
       //get monthly expenses
       const expenses = await this.collection
         .find({
-          date: { $gte: startDate, $lte: endDate }
+          date: { $gte: startDate, $lte: endDate },
         })
         .sort({ date: -1 })
         .toArray();
@@ -157,7 +157,7 @@ class Expense {
       //get monthly total expense amount
       const monthlyTotalExpense = await this.getMonthlyTotalExpense(
         year,
-        month
+        month,
       );
 
       dashBoardData["monthlyTotalExpense"] = monthlyTotalExpense;
@@ -186,15 +186,15 @@ class Expense {
         .aggregate([
           {
             $match: {
-              date: { $gte: startDate, $lte: endDate }
-            }
+              date: { $gte: startDate, $lte: endDate },
+            },
           },
           {
             $group: {
               _id: null,
-              total: { $sum: "$amount" }
-            }
-          }
+              total: { $sum: "$amount" },
+            },
+          },
         ])
         .toArray();
 
@@ -224,13 +224,13 @@ class Expense {
       //get monthly expense
       const maxExpenseAmount = getAmountByPercentage(
         maxExpenseLimit,
-        maxExpensePercentage
+        maxExpensePercentage,
       );
 
       return monthlyTotal >= maxExpenseAmount ? true : false;
     } catch (error) {
       throw new Error(
-        `Error finding max expenses has exceeded: ${error.message}`
+        `Error finding max expenses has exceeded: ${error.message}`,
       );
     }
   }
