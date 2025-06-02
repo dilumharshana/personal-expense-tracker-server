@@ -28,6 +28,12 @@ jobs:
           key: ${{ secrets.EC2_KEY }}
           script: |
             cd /home/ubuntu/personal-expense-tracker-server
+            echo "PORT=${{ secrets.PORT }}" > .env
+            echo "MONGODB_URI=${{ secrets.MONGODB_URI }}" > .env
+            echo "DB_NAME=${{ secrets.DB_NAME }}" > .env
+            echo "MASTER_DATA_CLUSTER=${{ secrets.MASTER_DATA_CLUSTER }}" > .env
+            echo "EXPENSE_DATA_CLUSTER=${{ secrets.EXPENSE_DATA_CLUSTER }}" > .env
+            echo "APP_CONFIG_DATA_CLUSTER=${{ secrets.APP_CONFIG_DATA_CLUSTER }}" > .env
             git pull origin development
             npm install
             pm2 restart mern-backend
