@@ -12,12 +12,6 @@ import database from "./src/config/db-connection.js";
 // Import api route handler
 import apiRoutes from "./src/routes/index.js";
 
-// app.use(
-//   cors({
-//     origin: "TODO:add front end domain here"
-//   })
-// );
-
 // Initialize express app
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -31,7 +25,7 @@ app.use(express.json());
 app.use("/api", apiRoutes);
 
 // Start server
-app.listen(PORT, async () => {
+app.listen(PORT, "0.0.0.0", async () => {
   await database.connect();
   console.log(`🚀 Server running on port : http://localhost:${PORT}/`);
 });
